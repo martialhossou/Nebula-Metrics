@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <title>Nebula Metrics — Analytics IA (Démo)</title>
+  <meta name="description" content="Plateforme d’analytics propulsée par l’IA. Dashboards temps réel, alertes intelligentes, connecteurs cloud. Démo FR/EN. CTA → WhatsApp."/>
+  <meta property="og:title" content="Nebula Metrics — Analytics IA"/>
+  <meta property="og:description" content="Design dark premium, effets néon, verre, parallaxe, images HD. Démo FR/EN."/>
+  <meta name="theme-color" content="#0B0F1A"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0B0F1A;            /* fond dark */
+      --panel:#111627;         /* cartes verre */
+      --glass:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.12);
+      --ink:#E9F1FF;           /* texte principal */
+      --ink-2:#9CB1D9;         /* secondaire */
+      --accent:#22D3EE;        /* cyan néon */
+      --accent-2:#A855F7;      /* magenta néon */
+      --shadow:0 18px 50px rgba(0,0,0,.35);
+      --radius:18px;
+      --maxw:1200px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;background:radial-gradient(1200px 800px at 20% -10%, rgba(34,211,238,.12), transparent 50%),
+                      radial-gradient(1000px 700px at 110% 10%, rgba(168,85,247,.10), transparent 50%),
+                      var(--bg);
+      color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;line-height:1.7;overflow-x:hidden
+    }
+    .container{max-width:var(--maxw);margin-inline:auto;padding-inline:24px}
+    img{max-width:100%;height:auto;display:block}
+    a{color:inherit;text-decoration:none}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:60;background:rgba(11,15,26,.7);backdrop-filter:saturate(120%) blur(10px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:76px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{font-family:"Space Grotesk",Inter,system-ui;font-weight:700;letter-spacing:.2px}
+    .logo-mark{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 0deg, var(--accent), #67E8F9, #A78BFA, var(--accent))}
+    nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+    nav a{font-weight:800;position:relative;color:#D9E6FF}
+    nav a:after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .25s}
+    nav a:hover:after{width:100%}
+    .actions{display:flex;align-items:center;gap:12px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:.8rem 1.15rem;border-radius:14px;border:1px solid var(--line);background:var(--glass);color:#E8F1FF;font-weight:800;backdrop-filter:blur(8px)}
+    .btn.primary{border-color:transparent;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0A0E1A}
+    .btn.link{border:0;background:transparent;color:var(--accent);padding:0}
+    .lang{border:1px solid var(--line);background:var(--glass);border-radius:12px;padding:.55rem .9rem;font-weight:800;color:#D9E6FF}
+
+    /* Menu mobile opaque */
+    .hamburger{display:none;flex-direction:column;gap:4px;border:0;background:var(--glass);padding:10px;border:1px solid var(--line);border-radius:12px}
+    .hamburger span{width:26px;height:3px;background:#CFE3FF;border-radius:6px}
+    .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:.25s;z-index:59}
+    .backdrop.show{opacity:1;visibility:visible}
+    .mobile-drawer{position:fixed;top:0;right:0;height:100%;width:min(84vw,380px);transform:translateX(100%);transition:transform .35s ease;background:rgba(17,22,39,.98);border-left:1px solid var(--line);z-index:60;display:flex;flex-direction:column}
+    .mobile-drawer.open{transform:translateX(0)}
+    .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+    .drawer-close{border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0A0E1A;padding:.6rem 1rem;border-radius:12px;font-weight:900}
+    .drawer-body{padding:12px 6px;display:flex;flex-direction:column}
+    .drawer-body a{padding:16px 18px;border-bottom:1px solid var(--line);font-weight:800;color:#E9F1FF}
+
+    /* Hero */
+    .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);isolation:isolate}
+    .hero .container{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;min-height:78vh;align-items:center;padding-block:96px}
+    h1{font-family:"Space Grotesk",Inter,system-ui;font-weight:700;font-size:clamp(32px,6vw,66px);line-height:1.04;margin:0 0 14px;color:#F2F6FF}
+    .lead{font-size:clamp(15px,3.4vw,19px);color:var(--ink-2);max-width:62ch}
+    .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:.4rem .8rem;margin-bottom:10px;font-weight:800;color:#D9E6FF}
+    .badge .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+
+    .hero-visual{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:4/3;box-shadow:var(--shadow);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02))}
+    .hero-visual img{width:100%;height:100%;object-fit:cover}
+    /* orbes parallaxe */
+    .orb{position:absolute;inset:auto;border-radius:50%;filter:blur(22px);opacity:.7;pointer-events:none}
+    .orb.cyan{width:320px;height:320px;right:-80px;bottom:-80px;background:radial-gradient(closest-side, rgba(34,211,238,.25), transparent 70%)}
+    .orb.mag{width:260px;height:260px;left:-70px;top:-70px;background:radial-gradient(closest-side, rgba(168,85,247,.25), transparent 70%)}
+    .orb.mini{width:160px;height:160px;right:12%;top:-50px;background:radial-gradient(closest-side, rgba(103,232,249,.22), transparent 70%)}
+
+    section{padding-block:90px}
+    .title{font-family:"Space Grotesk",Inter;font-size:30px;margin:0 0 10px;color:#EBF3FF}
+    .sub{color:#9CB1D9;margin:0 0 26px}
+
+    /* grille */
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+
+    /* cards verre */
+    .card{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:var(--glass);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+    .card h3{margin:0 0 8px;font-size:18px;color:#F0F6FF}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--line);font-size:12px;color:#BFD2F5;background:rgba(255,255,255,.04)}
+
+    /* feature icons */
+    .ico{width:28px;height:28px;border-radius:8px;display:inline-grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0A0E1A;font-weight:900}
+
+    /* gallery/screens */
+    .shot{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(255,255,255,.05);box-shadow:var(--shadow)}
+    .shot .cover{width:100%;aspect-ratio:16/10;object-fit:cover}
+
+    /* pricing */
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+    .price{border:1px solid var(--line);border-radius:18px;background:var(--glass);box-shadow:var(--shadow);padding:22px}
+    .price .tag{font-weight:900;font-size:28px;color:#F6FBFF}
+    .price ul{margin:14px 0 0 0;padding:0;list-style:none;color:#B9C9EB}
+    .price li{padding:6px 0;border-top:1px solid var(--line)}
+    .toggle{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--glass);padding:6px 10px;border-radius:999px}
+
+    /* FAQ */
+    .faq{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    details{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--glass);box-shadow:var(--shadow)}
+    summary{font-weight:900;cursor:pointer;color:#EAF2FF}
+
+    /* CTA band */
+    .band{padding:40px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+
+    /* Footer (propre, aligné, centré) */
+    footer{padding-block:48px;border-top:1px solid var(--line);background:rgba(11,15,26,.6);backdrop-filter:blur(8px);color:#B9C9EB}
+    .foot{max-width:var(--maxw);margin-inline:auto;padding-inline:24px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px}
+    .foot .brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
+    .foot .logo{font-family:"Space Grotesk",Inter;font-weight:700;font-size:18px;color:#EAF2FF}
+    .foot .logo-mark{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 0deg, var(--accent), #67E8F9, #A78BFA, var(--accent))}
+    .foot .meta{color:#9FB3DD;font-size:14px;line-height:1.6}
+    .foot .credit{font-size:14px;color:#9FB3DD}
+    .foot a{color:#CBE2FF;text-decoration:underline}
+
+    /* back to top */
+    .to-top{position:fixed;right:18px;bottom:18px;width:48px;height:48px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0A0E1A;display:flex;align-items:center;justify-content:center;font-size:20px;opacity:0;visibility:hidden;transition:.25s;z-index:70}
+    .to-top.show{opacity:1;visibility:visible}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero .container{grid-template-columns:1fr}
+      .grid-3,.grid-2,.pricing,.faq{grid-template-columns:1fr}
+      nav{display:none}
+      .hamburger{display:flex}
+      .btn{padding:.55rem .9rem;font-size:13px;border-radius:10px}
+      .btn.primary{padding:.65rem 1rem;font-size:13px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav" role="navigation" aria-label="Navigation principale">
+      <div class="brand">
+        <div class="logo-mark"></div>
+        <div class="logo">Nebula Metrics</div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#features" data-i18n="nav.features">Fonctionnalités</a></li>
+          <li><a href="#shots" data-i18n="nav.screens">Screenshots</a></li>
+          <li><a href="#pricing" data-i18n="nav.pricing">Tarifs</a></li>
+          <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="#blog" data-i18n="nav.blog">Blog</a></li>
+        </ul>
+      </nav>
+      <div class="actions">
+        <button class="lang" id="langSwitch" aria-label="Changer de langue">FR / EN</button>
+        <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="backdrop" id="backdrop"></div>
+    <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+      <div class="drawer-head">
+        <div class="title">Menu</div>
+        <button class="drawer-close" id="drawerClose">Fermer ✕</button>
+      </div>
+      <div class="drawer-body">
+        <a href="#features" data-i18n="nav.features">Fonctionnalités</a>
+        <a href="#shots" data-i18n="nav.screens">Screenshots</a>
+        <a href="#pricing" data-i18n="nav.pricing">Tarifs</a>
+        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+        <a href="#blog" data-i18n="nav.blog">Blog</a>
+        <a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" style="margin:12px;" data-i18n="nav.cta">Parler à un expert</a>
+      </div>
+    </aside>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" aria-label="Présentation">
+    <div class="container">
+      <div>
+        <span class="badge"><span class="dot"></span><span data-i18n="hero.badge">Analytics IA temps réel</span></span>
+        <h1 data-i18n="hero.title">Décisions plus rapides. Croissance mesurable.</h1>
+        <p class="lead" data-i18n="hero.lead">Dashboards intelligents, alertes prédictives et connecteurs cloud. De la donnée à l’action, en quelques minutes.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
+          <a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="hero.cta1">Demander une démo</a>
+          <a class="btn" href="#features" data-i18n="hero.cta2">Voir les fonctions</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img
+          src="https://picsum.photos/seed/nebula-dashboard/1200/800"
+          srcset="https://picsum.photos/seed/nebula-dashboard/800/533 800w, https://picsum.photos/seed/nebula-dashboard/1200/800 1200w, https://picsum.photos/seed/nebula-dashboard/1600/1067 1600w"
+          sizes="(max-width: 980px) 100vw, 48vw"
+          alt="Mockup de dashboard analytics"
+          width="1200" height="800"
+          referrerpolicy="no-referrer"
+          loading="eager" fetchpriority="high" decoding="async"/>
+        <div class="orb cyan" aria-hidden="true"></div>
+        <div class="orb mag" aria-hidden="true"></div>
+        <div class="orb mini" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <main id="main">
+    <!-- Problem → Solution -->
+    <section class="container" id="features">
+      <h2 class="title" data-i18n="ps.title">Pourquoi Nebula ?</h2>
+      <p class="sub" data-i18n="ps.lead">Moins de bruit, plus de signal. Toute votre donnée activable.</p>
+      <div class="grid-3">
+        <article class="card">
+          <div class="ico">AI</div>
+          <h3 data-i18n="ps.s1.t">Insights IA</h3>
+          <p data-i18n="ps.s1.d">Résumés automatiques et recommandations prioritaires sur les anomalies.</p>
+        </article>
+        <article class="card">
+          <div class="ico">RT</div>
+          <h3 data-i18n="ps.s2.t">Temps réel</h3>
+          <p data-i18n="ps.s2.d">Streaming, latence < 2s, alertes Slack/Email/WhatsApp quand ça compte.</p>
+        </article>
+        <article class="card">
+          <div class="ico">∞</div>
+          <h3 data-i18n="ps.s3.t">Connecteurs</h3>
+          <p data-i18n="ps.s3.d">BigQuery, Postgres, Stripe, Shopify, Ads… branchez et analysez.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Features détaillées -->
+    <section class="container">
+      <h2 class="title" data-i18n="fx.title">Fonctionnalités clés</h2>
+      <p class="sub" data-i18n="fx.lead">Un studio d’analytics complet et élégant.</p>
+      <div class="grid-3">
+        <article class="card">
+          <div class="pill">Explainable AI</div>
+          <h3 data-i18n="fx.f1.t">Détection d’anomalies</h3>
+          <p data-i18n="fx.f1.d">Scores, causes probables et impact business simulé.</p>
+          <a class="btn link" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.talk">Parler à un expert →</a>
+        </article>
+        <article class="card">
+          <div class="pill">Dashboards</div>
+          <h3 data-i18n="fx.f2.t">Exploration visuelle</h3>
+          <p data-i18n="fx.f2.d">Filtres, segments, cohortes, A/B. Enregistrez et partagez.</p>
+          <a class="btn link" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.quote">Obtenir un devis →</a>
+        </article>
+        <article class="card">
+          <div class="pill">Automation</div>
+          <h3 data-i18n="fx.f3.t">Playbooks</h3>
+          <p data-i18n="fx.f3.d">Quand X arrive, déclencher Y : export, ticket, message.</p>
+          <a class="btn link" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.meet">Planifier une démo →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="container" id="shots">
+      <h2 class="title" data-i18n="shots.title">Aperçus</h2>
+      <p class="sub" data-i18n="shots.lead">Interface soignée, focus sur l’essentiel.</p>
+      <div class="grid-3">
+        <article class="shot"><img class="cover" src="https://picsum.photos/seed/nebula-shot1/1200/750" srcset="https://picsum.photos/seed/nebula-shot1/800/500 800w, https://picsum.photos/seed/nebula-shot1/1200/750 1200w" sizes="(max-width:980px) 96vw, 31vw" alt="Dashboard ventes" referrerpolicy="no-referrer"></article>
+        <article class="shot"><img class="cover" src="https://picsum.photos/seed/nebula-shot2/1200/750" srcset="https://picsum.photos/seed/nebula-shot2/800/500 800w, https://picsum.photos/seed/nebula-shot2/1200/750 1200w" sizes="(max-width:980px) 96vw, 31vw" alt="Exploration cohortes" referrerpolicy="no-referrer"></article>
+        <article class="shot"><img class="cover" src="https://picsum.photos/seed/nebula-shot3/1200/750" srcset="https://picsum.photos/seed/nebula-shot3/800/500 800w, https://picsum.photos/seed/nebula-shot3/1200/750 1200w" sizes="(max-width:980px) 96vw, 31vw" alt="Alertes temps réel" referrerpolicy="no-referrer"></article>
+      </div>
+    </section>
+
+    <!-- KPIs Bandeau -->
+    <section class="container">
+      <div class="band">
+        <div class="grid-3">
+          <div class="card"><h3>↓ 35%</h3><p data-i18n="kpi1">Temps d’analyse</p></div>
+          <div class="card"><h3>↑ 22%</h3><p data-i18n="kpi2">Conversion</p></div>
+          <div class="card"><h3>97</h3><p data-i18n="kpi3">NPS (démaquette)</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="container" id="pricing">
+      <h2 class="title" data-i18n="price.title">Tarifs</h2>
+      <p class="sub" data-i18n="price.lead">Simple et transparent. Basculer mensuel/annuel.</p>
+      <div class="toggle"><label><input type="checkbox" id="billSwitch"> <span data-i18n="price.toggle">Annuel (-15%)</span></label></div>
+      <div class="pricing" style="margin-top:18px">
+        <article class="price">
+          <div class="pill">Starter</div>
+          <div class="tag" data-price="29">$29</div>
+          <ul>
+            <li>1 source • 3 dashboards</li><li>Alertes de base</li><li>Support email</li>
+          </ul>
+          <div style="margin-top:14px"><a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.start">Démarrer</a></div>
+        </article>
+        <article class="price">
+          <div class="pill">Growth</div>
+          <div class="tag" data-price="79">$79</div>
+          <ul>
+            <li>5 sources • 10 dashboards</li><li>Alertes avancées</li><li>Support prioritaire</li>
+          </ul>
+          <div style="margin-top:14px"><a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.start">Démarrer</a></div>
+        </article>
+        <article class="price">
+          <div class="pill">Scale</div>
+          <div class="tag" data-price="169">$169</div>
+          <ul>
+            <li>Illimité</li><li>SLA & Onboarding</li><li>Playbooks IA</li>
+          </ul>
+          <div style="margin-top:14px"><a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.start">Démarrer</a></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Blog -->
+    <section class="container" id="blog">
+      <h2 class="title" data-i18n="blog.title">Blog</h2>
+      <p class="sub" data-i18n="blog.lead">Notes rapides sur la donnée et la croissance.</p>
+      <div class="grid-3">
+        <article class="card">
+          <div class="pill">Guide</div>
+          <h3 data-i18n="blog.p1.t">Installer des alertes utiles</h3>
+          <p data-i18n="blog.p1.d">Seuils dynamiques vs seuils fixes : quand utiliser quoi.</p>
+          <a class="btn link" href="https://wa.me/22952964028" target="_blank" rel="noopener">Poser une question →</a>
+        </article>
+        <article class="card">
+          <div class="pill">Cas</div>
+          <h3 data-i18n="blog.p2.t">Ecommerce & cohortes</h3>
+          <p data-i18n="blog.p2.d">Lire la rétention réelle par segment.</p>
+          <a class="btn link" href="https://wa.me/22952964028" target="_blank" rel="noopener">Parler à un expert →</a>
+        </article>
+        <article class="card">
+          <div class="pill">Ops</div>
+          <h3 data-i18n="blog.p3.t">Nettoyer la donnée</h3>
+          <p data-i18n="blog.p3.d">Petits checklists qui changent tout.</p>
+          <a class="btn link" href="https://wa.me/22952964028" target="_blank" rel="noopener">Demander un audit →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="container">
+      <div class="band" role="region" aria-label="Action">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div style="font-family:'Space Grotesk',Inter;font-weight:700;font-size:22px" data-i18n="cta.title">Prêt à connecter vos données ?</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.book">Demander une démo</a>
+            <a class="btn" href="#features" data-i18n="cta.see">Voir les fonctions</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (aligné & centré) -->
+  <footer>
+    <div class="foot" role="contentinfo">
+      <div class="brand">
+        <div class="logo-mark"></div>
+        <div class="logo">Nebula Metrics</div>
+      </div>
+      <div class="meta" data-i18n="footer.addr">Adresse fictive (démo). Disponible monde. Support : L-S 09:00–18:00.</div>
+      <div class="meta">© <span id="year"></span> Nebula Metrics — <span data-i18n="footer.rights">Tous droits réservés</span>.</div>
+      <div class="credit">
+        Site de démonstration créé par <strong>Martial HOSSOU</strong>, CEO de
+        <a href="https://facebook.com/creativeentreprise" target="_blank" rel="noopener"><strong>CREATIVE ENTREPRISE</strong></a>.
+      </div>
+      <div style="margin-top:10px"><button class="lang" id="langSwitch2" aria-label="Changer de langue (pied)">FR / EN</button></div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="to-top" id="toTop" aria-label="Retour en haut">▲</button>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Nebula Metrics","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"29.00","priceCurrency":"USD"}}
+  </script>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile drawer
+    const drawer = document.getElementById('drawer');
+    const burger = document.getElementById('hamburger');
+    const backdrop = document.getElementById('backdrop');
+    const closeBtn = document.getElementById('drawerClose');
+    function openDrawer(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); backdrop.classList.add('show'); }
+    function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); backdrop.classList.remove('show'); }
+    burger.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+
+    // Back-to-top
+    const toTop = document.getElementById('toTop');
+    function visToTop(){ window.scrollY > 400 ? toTop.classList.add('show') : toTop.classList.remove('show'); }
+    window.addEventListener('scroll', visToTop, {passive:true});
+    toTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+    // Parallax (orbs + léger zoom)
+    const orbs = document.querySelectorAll('.orb');
+    const heroImg = document.querySelector('.hero-visual img');
+    function parallax(){
+      const y = window.scrollY || 0;
+      orbs.forEach((el,i)=>{
+        const k = [.06,.04,.08][i] || .05;
+        el.style.transform = `translateY(${Math.min(120, y*k)}px)`;
+      });
+      const scale = 1 + Math.min(0.06, y/6000);
+      heroImg.style.transform = `scale(${scale}) translateY(${Math.min(16, y*0.02)}px)`;
+      heroImg.style.transition = 'transform .12s ease-out';
+    }
+    parallax();
+    window.addEventListener('scroll', parallax, {passive:true});
+
+    // Pricing toggle
+    const billSwitch = document.getElementById('billSwitch');
+    const prices = document.querySelectorAll('.price .tag');
+    function updatePrices(){ prices.forEach(p=>{ const base=Number(p.dataset.price); p.textContent = billSwitch.checked ? `$${Math.round(base*12*0.85)}/an` : `$${base}/mois`; }); }
+    billSwitch.addEventListener('change', updatePrices); updatePrices();
+
+    // I18N
+    const I18N = {
+      fr:{nav:{features:"Fonctionnalités",screens:"Screenshots",pricing:"Tarifs",faq:"FAQ",blog:"Blog",cta:"Parler à un expert"},
+          hero:{badge:"Analytics IA temps réel",title:"Décisions plus rapides. Croissance mesurable.",lead:"Dashboards intelligents, alertes prédictives et connecteurs cloud. De la donnée à l’action, en quelques minutes.",cta1:"Demander une démo",cta2:"Voir les fonctions"},
+          ps:{title:"Pourquoi Nebula ?",lead:"Moins de bruit, plus de signal. Toute votre donnée activable.",s1:{t:"Insights IA",d:"Résumés automatiques et recommandations prioritaires sur les anomalies."},s2:{t:"Temps réel",d:"Streaming, latence < 2s, alertes Slack/Email/WhatsApp quand ça compte."},s3:{t:"Connecteurs",d:"BigQuery, Postgres, Stripe, Shopify, Ads… branchez et analysez."}},
+          fx:{title:"Fonctionnalités clés",lead:"Un studio d’analytics complet et élégant.",f1:{t:"Détection d’anomalies",d:"Scores, causes probables et impact business simulé."},f2:{t:"Exploration visuelle",d:"Filtres, segments, cohortes, A/B. Enregistrez et partagez."},f3:{t:"Playbooks",d:"Quand X arrive, déclencher Y : export, ticket, message."}},
+          shots:{title:"Aperçus",lead:"Interface soignée, focus sur l’essentiel."},
+          kpi1:"Temps d’analyse",kpi2:"Conversion",kpi3:"NPS (démaquette)",
+          price:{title:"Tarifs",lead:"Simple et transparent. Basculer mensuel/annuel.",toggle:"Annuel (-15%)"},
+          blog:{title:"Blog",lead:"Notes rapides sur la donnée et la croissance."},
+          faq:{title:"FAQ"},
+          cta:{title:"Prêt à connecter vos données ?",book:"Demander une démo",see:"Voir les fonctions",start:"Démarrer"},
+          footer:{addr:"Adresse fictive (démo). Disponible monde. Support : L-S 09:00–18:00.",rights:"Tous droits réservés"}},
+      en:{nav:{features:"Features",screens:"Screenshots",pricing:"Pricing",faq:"FAQ",blog:"Blog",cta:"Talk to an expert"},
+          hero:{badge:"Real-time AI Analytics",title:"Faster decisions. Measurable growth.",lead:"Smart dashboards, predictive alerts and cloud connectors. From data to action in minutes.",cta1:"Request a demo",cta2:"See features"},
+          ps:{title:"Why Nebula?",lead:"Less noise, more signal. Your data, actionable.",s1:{t:"AI insights",d:"Automatic summaries and priority recommendations on anomalies."},s2:{t:"Real-time",d:"Streaming, <2s latency, Slack/Email/WhatsApp alerts when it matters."},s3:{t:"Connectors",d:"BigQuery, Postgres, Stripe, Shopify, Ads… plug and analyze."}},
+          fx:{title:"Key features",lead:"A complete, elegant analytics studio.",f1:{t:"Anomaly detection",d:"Scores, likely causes, simulated business impact."},f2:{t:"Visual exploration",d:"Filters, segments, cohorts, A/B. Save & share."},f3:{t:"Playbooks",d:"When X happens, trigger Y: export, ticket, message."}},
+          shots:{title:"Screenshots",lead:"Polished UI, focus on signal."},
+          kpi1:"Analysis time",kpi2:"Conversion",kpi3:"NPS (mock)",
+          price:{title:"Pricing",lead:"Simple and transparent. Toggle monthly/annual.",toggle:"Annual (-15%)"},
+          blog:{title:"Blog",lead:"Short notes on data and growth."},
+          faq:{title:"FAQ"},
+          cta:{title:"Ready to connect your data?",book:"Request a demo",see:"See features",start:"Get started"},
+          footer:{addr:"Fictitious address (demo). Global availability. Support: Mon–Sat 09:00–18:00.",rights:"All rights reserved"}}
+    };
+    function applyI18n(locale){
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const path = el.getAttribute('data-i18n').split('.');
+        let val = I18N[locale];
+        for(const p of path){ val = val?.[p]; }
+        if(typeof val === 'string'){ el.textContent = val; }
+      });
+      document.documentElement.lang = (locale==='fr')?'fr':'en';
+      localStorage.setItem('NEBULA_LANG', locale);
+    }
+    const saved = localStorage.getItem('NEBULA_LANG') || (navigator.language?.startsWith('fr') ? 'fr' : 'en');
+    applyI18n(saved);
+    function toggleLang(){ applyI18n((localStorage.getItem('NEBULA_LANG')==='fr')?'en':'fr'); }
+    document.getElementById('langSwitch').addEventListener('click', toggleLang);
+    document.getElementById('langSwitch2')?.addEventListener('click', toggleLang);
+  </script>
+</body>
+</html>
