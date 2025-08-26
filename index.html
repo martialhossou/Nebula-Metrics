@@ -6,7 +6,7 @@
   <title>Nebula Metrics — Analytics IA (Démo)</title>
   <meta name="description" content="Plateforme d’analytics propulsée par l’IA. Dashboards temps réel, alertes intelligentes, connecteurs cloud. Démo FR/EN. CTA → WhatsApp."/>
   <meta property="og:title" content="Nebula Metrics — Analytics IA"/>
-  <meta property="og:description" content="Design dark premium, effets néon, verre, parallaxe, images HD. Démo FR/EN."/>
+  <meta property="og:description" content="Design dark premium, effets néon, parallaxe, images HD. Démo FR/EN."/>
   <meta name="theme-color" content="#0B0F1A"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,126 +25,538 @@
       --maxw:1200px;
     }
     *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{
-      margin:0;
-      font-family:Inter,system-ui,sans-serif;
-      background:var(--bg);
-      color:var(--ink);
-      line-height:1.7;
+      margin:0;background:
+        radial-gradient(1200px 800px at 20% -10%, rgba(34,211,238,.12), transparent 50%),
+        radial-gradient(1000px 700px at 110% 10%, rgba(168,85,247,.10), transparent 50%),
+        var(--bg);
+      color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.7;overflow-x:hidden
     }
     .container{max-width:var(--maxw);margin:auto;padding:0 24px}
+    img{max-width:100%;height:auto;display:block}
+    a{color:inherit;text-decoration:none}
 
-    /* Header */
-    header{position:sticky;top:0;z-index:60;background:#0B0F1A;border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between;min-height:74px}
-    .brand{display:flex;align-items:center;gap:14px}
-    .logo{font-family:"Space Grotesk",sans-serif;font-weight:700;color:#fff}
-    nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
-    nav a{color:#E9F1FF;font-weight:800}
-    .actions{display:flex;gap:12px;align-items:center}
-    .btn{padding:.7rem 1.1rem;border-radius:12px;border:1px solid var(--line);font-weight:800;color:#fff;background:var(--glass)}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0B0F1A;border:0}
+    /* ===== HEADER ===== */
+    header{position:sticky;top:0;z-index:70;background:#0B0F1A;border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:76px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{font-family:"Space Grotesk",Inter;font-weight:700;letter-spacing:.2px}
+    .logo-mark{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 0deg, var(--accent), #67E8F9, #A78BFA, var(--accent))}
+    nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0}
+    nav a{font-weight:800;color:#D9E6FF;position:relative}
+    nav a:after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .25s}
+    nav a:hover:after{width:100%}
+    .actions{display:flex;align-items:center;gap:12px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:.8rem 1.15rem;border-radius:14px;border:1px solid var(--line);background:var(--glass);color:#E8F1FF;font-weight:800}
+    .btn.primary{border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0A0E1A}
+    .lang{border:1px solid var(--line);background:var(--glass);border-radius:12px;padding:.55rem .9rem;font-weight:800;color:#D9E6FF}
 
-    /* Menu mobile opaque */
-    .hamburger{display:none;flex-direction:column;gap:5px;border:0;background:#1A2237;padding:10px;border-radius:10px}
-    .hamburger span{width:26px;height:3px;background:#fff}
-    .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);opacity:0;visibility:hidden;transition:.25s;z-index:59}
+    /* ===== MENU MOBILE (OPAQUE) ===== */
+    .hamburger{display:none;flex-direction:column;gap:4px;border:0;background:#131A2E;padding:10px;border-radius:10px}
+    .hamburger span{width:26px;height:3px;background:#fff;border-radius:6px}
+    .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);opacity:0;visibility:hidden;transition:.25s;z-index:69}
     .backdrop.show{opacity:1;visibility:visible}
-    .mobile-drawer{position:fixed;top:0;right:0;width:80%;max-width:360px;height:100%;background:#0B0F1A;border-left:1px solid var(--line);
-      transform:translateX(100%);transition:.3s;z-index:60;display:flex;flex-direction:column}
+    .mobile-drawer{
+      position:fixed;top:0;right:0;height:100%;width:min(84vw,380px);
+      transform:translateX(100%);transition:transform .32s ease;
+      background:#0B0F1A;border-left:1px solid var(--line);z-index:70;
+      display:flex;flex-direction:column
+    }
     .mobile-drawer.open{transform:translateX(0)}
-    .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid var(--line);background:#111627}
-    .drawer-body a{padding:16px;border-bottom:1px solid var(--line);color:#E9F1FF;font-weight:800}
+    .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line);background:#111627;color:#EAF2FF}
+    .drawer-close{border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0A0E1A;padding:.6rem 1rem;border-radius:12px;font-weight:900}
+    .drawer-body{padding:8px 0;display:flex;flex-direction:column}
+    .drawer-body a{padding:16px 18px;border-bottom:1px solid var(--line);font-weight:800;color:#E9F1FF}
 
-    /* Hero minimal */
-    .hero{padding:80px 0;text-align:center}
-    .hero h1{font-family:"Space Grotesk",sans-serif;font-size:40px;color:#fff;margin:0}
-    .hero p{color:var(--ink-2);max-width:600px;margin:16px auto}
+    /* ===== HERO ===== */
+    .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+    .hero .container{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;min-height:78vh;align-items:center;padding:94px 24px}
+    h1{font-family:"Space Grotesk",Inter;font-weight:700;font-size:clamp(32px,6vw,66px);line-height:1.04;margin:0 0 14px;color:#F2F6FF}
+    .lead{font-size:clamp(15px,3.4vw,19px);color:var(--ink-2);max-width:62ch}
+    .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:.4rem .8rem;margin-bottom:10px;font-weight:800;color:#D9E6FF}
+    .badge .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+    .hero-visual{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:4/3;box-shadow:var(--shadow);background:#0F1427}
+    .hero-visual img{width:100%;height:100%;object-fit:cover}
+    .orb{position:absolute;border-radius:50%;filter:blur(22px);opacity:.7;pointer-events:none}
+    .orb.cyan{width:320px;height:320px;right:-80px;bottom:-80px;background:radial-gradient(closest-side, rgba(34,211,238,.25), transparent 70%)}
+    .orb.mag{width:260px;height:260px;left:-70px;top:-70px;background:radial-gradient(closest-side, rgba(168,85,247,.25), transparent 70%)}
+    .orb.mini{width:160px;height:160px;right:12%;top:-50px;background:radial-gradient(closest-side, rgba(103,232,249,.22), transparent 70%)}
 
-    /* Footer */
-    footer{padding:40px 0;border-top:1px solid var(--line);text-align:center;color:#9CB1D9}
-    .credit a{color:#CBE2FF;text-decoration:underline}
+    section{padding:90px 0}
+    .title{font-family:"Space Grotesk",Inter;font-size:30px;margin:0 0 10px;color:#EBF3FF}
+    .sub{color:#9CB1D9;margin:0 0 26px}
 
-    /* Popup luxe */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;
-      opacity:0;visibility:hidden;transition:.3s;z-index:100}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+
+    .card{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:var(--glass);box-shadow:var(--shadow)}
+    .card h3{margin:0 0 8px;font-size:18px;color:#F0F6FF}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--line);font-size:12px;color:#BFD2F5;background:rgba(255,255,255,.04)}
+    .ico{width:28px;height:28px;border-radius:8px;display:inline-grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0A0E1A;font-weight:900}
+
+    .shot{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#0F1427}
+    .shot .cover{width:100%;aspect-ratio:16/10;object-fit:cover}
+
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+    .price{border:1px solid var(--line);border-radius:18px;background:var(--glass);box-shadow:var(--shadow);padding:22px}
+    .price .tag{font-weight:900;font-size:28px;color:#F6FBFF}
+    .price ul{margin:14px 0 0 0;padding:0;list-style:none;color:#B9C9EB}
+    .price li{padding:6px 0;border-top:1px solid var(--line)}
+    .toggle{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--glass);padding:6px 10px;border-radius:999px}
+
+    .faq{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    details{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--glass)}
+    summary{font-weight:900;cursor:pointer;color:#EAF2FF}
+
+    .band{padding:40px;border-radius:16px;border:1px solid var(--line);background:#10162A}
+
+    /* BLOG */
+    .post .thumb{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;margin-bottom:10px;border:1px solid var(--line)}
+    .post .meta{color:#9CB1D9;font-size:12px;margin-top:6px}
+
+    /* FOOTER (centré) */
+    footer{padding:48px 0;border-top:1px solid var(--line);background:#0B0F1A;color:#B9C9EB}
+    .foot{max-width:var(--maxw);margin:auto;padding:0 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+    .foot .brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
+    .foot .logo{font-family:"Space Grotesk",Inter;font-weight:700;font-size:18px;color:#EAF2FF}
+    .foot .logo-mark{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 0deg, var(--accent), #67E8F9, #A78BFA, var(--accent))}
+    .foot .meta{color:#9FB3DD;font-size:14px;line-height:1.6}
+    .foot .credit{font-size:14px;color:#9FB3DD}
+    .foot a{color:#CBE2FF;text-decoration:underline}
+
+    /* Back to top */
+    .to-top{position:fixed;right:18px;bottom:18px;width:48px;height:48px;border-radius:999px;border:1px solid var(--line);
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0A0E1A;display:flex;align-items:center;justify-content:center;font-size:20px;
+      opacity:0;visibility:hidden;transition:.25s;z-index:70}
+    .to-top.show{opacity:1;visibility:visible}
+
+    /* ===== POPUP (OPAQUE, pas de transparence) ===== */
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,.8);
+      display:flex;align-items:center;justify-content:center;
+      opacity:0;visibility:hidden;transition:.25s;z-index:99;
+    }
     .modal-backdrop.show{opacity:1;visibility:visible}
-    .modal{background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.05));
-      border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.5);
-      padding:20px;max-width:400px;width:90%;color:#fff;transform:translateY(20px);opacity:0;transition:.3s}
-    .modal.show{transform:translateY(0);opacity:1}
-    .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-    .modal-close{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;border-radius:8px;padding:.4rem .7rem;cursor:pointer;font-weight:800;color:#0B0F1A}
-    .modal-actions{margin-top:16px;text-align:right}
+    .modal{
+      width:min(92vw,640px);
+      background:#111627; /* OPAQUE */
+      border:1px solid var(--line);
+      border-radius:20px;box-shadow:0 30px 90px rgba(0,0,0,.6);
+      color:#EAF2FF;overflow:hidden;
+      transform:translateY(20px) scale(.98);opacity:0;transition:.25s;
+    }
+    .modal.show{transform:none;opacity:1}
+    .modal-head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 18px;border-bottom:1px solid var(--line);
+      background:#0F1427; /* Opaque */
+    }
+    .modal-title{font-family:"Space Grotesk",Inter;font-weight:700}
+    .modal-close{
+      border:0;border-radius:12px;padding:.4rem .7rem;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#0A0E1A;font-weight:900;cursor:pointer;
+    }
+    .modal-body{padding:20px}
+    .modal-body p{margin:0 0 10px;color:#CBE2FF}
+    .modal-actions{
+      display:flex;justify-content:flex-end;gap:10px;padding:16px 18px;border-top:1px solid var(--line);
+      background:#0F1427; /* Opaque */
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width:980px){
+      .hero .container{grid-template-columns:1fr}
+      .grid-3,.grid-2,.pricing,.faq{grid-template-columns:1fr}
+      nav{display:none}
+      .hamburger{display:flex}
+      .btn{padding:.55rem .9rem;font-size:13px;border-radius:10px}
+      .btn.primary{padding:.65rem 1rem;font-size:13px}
+    }
   </style>
 </head>
 <body>
+  <!-- ===== HEADER ===== -->
   <header>
-    <div class="container nav">
-      <div class="brand"><div class="logo">Nebula Metrics</div></div>
+    <div class="container nav" role="navigation" aria-label="Navigation principale">
+      <div class="brand">
+        <div class="logo-mark"></div>
+        <div class="logo">Nebula Metrics</div>
+      </div>
       <nav>
         <ul>
-          <li><a href="#features">Fonctionnalités</a></li>
-          <li><a href="#pricing">Tarifs</a></li>
+          <li><a href="#features" data-i18n="nav.features">Fonctionnalités</a></li>
+          <li><a href="#shots" data-i18n="nav.screens">Screenshots</a></li>
+          <li><a href="#pricing" data-i18n="nav.pricing">Tarifs</a></li>
+          <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="#blog" data-i18n="nav.blog">Blog</a></li>
         </ul>
       </nav>
       <div class="actions">
-        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        <button class="lang" id="langSwitch" aria-label="Changer de langue">FR / EN</button>
+        <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
     <div class="backdrop" id="backdrop"></div>
-    <aside class="mobile-drawer" id="drawer">
-      <div class="drawer-head"><span>Menu</span><button class="drawer-close" id="drawerClose">✕</button></div>
+    <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+      <div class="drawer-head">
+        <div class="title">Menu</div>
+        <button class="drawer-close" id="drawerClose">Fermer ✕</button>
+      </div>
       <div class="drawer-body">
-        <a href="#features">Fonctionnalités</a>
-        <a href="#pricing">Tarifs</a>
+        <a href="#features" data-i18n="nav.features">Fonctionnalités</a>
+        <a href="#shots" data-i18n="nav.screens">Screenshots</a>
+        <a href="#pricing" data-i18n="nav.pricing">Tarifs</a>
+        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+        <a href="#blog" data-i18n="nav.blog">Blog</a>
+        <a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" style="margin:12px;" data-i18n="nav.cta">Parler à un expert</a>
       </div>
     </aside>
   </header>
 
-  <section class="hero">
-    <h1>Décisions plus rapides. Croissance mesurable.</h1>
-    <p>Dashboards intelligents, alertes prédictives et connecteurs cloud.</p>
-    <a href="https://wa.me/22952964028" class="btn primary">Demander une démo</a>
+  <!-- ===== HERO ===== -->
+  <section class="hero" aria-label="Présentation">
+    <div class="container">
+      <div>
+        <span class="badge"><span class="dot"></span><span data-i18n="hero.badge">Analytics IA temps réel</span></span>
+        <h1 data-i18n="hero.title">Décisions plus rapides. Croissance mesurable.</h1>
+        <p class="lead" data-i18n="hero.lead">Dashboards intelligents, alertes prédictives et connecteurs cloud. De la donnée à l’action, en quelques minutes.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
+          <a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="hero.cta1">Demander une démo</a>
+          <a class="btn" href="#features" data-i18n="hero.cta2">Voir les fonctions</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img
+          src="https://picsum.photos/seed/nebula-dashboard/1200/800"
+          srcset="https://picsum.photos/seed/nebula-dashboard/800/533 800w, https://picsum.photos/seed/nebula-dashboard/1200/800 1200w, https://picsum.photos/seed/nebula-dashboard/1600/1067 1600w"
+          sizes="(max-width: 980px) 100vw, 48vw"
+          alt="Mockup de dashboard analytics"
+          width="1200" height="800"
+          referrerpolicy="no-referrer"
+          loading="eager" fetchpriority="high" decoding="async"/>
+        <div class="orb cyan" aria-hidden="true"></div>
+        <div class="orb mag" aria-hidden="true"></div>
+        <div class="orb mini" aria-hidden="true"></div>
+      </div>
+    </div>
   </section>
 
+  <main id="main">
+    <!-- ===== Pourquoi ===== -->
+    <section class="container" id="features">
+      <h2 class="title" data-i18n="ps.title">Pourquoi Nebula ?</h2>
+      <p class="sub" data-i18n="ps.lead">Moins de bruit, plus de signal. Toute votre donnée activable.</p>
+      <div class="grid-3">
+        <article class="card">
+          <div class="ico">AI</div>
+          <h3 data-i18n="ps.s1.t">Insights IA</h3>
+          <p data-i18n="ps.s1.d">Résumés automatiques et recommandations prioritaires sur les anomalies.</p>
+        </article>
+        <article class="card">
+          <div class="ico">RT</div>
+          <h3 data-i18n="ps.s2.t">Temps réel</h3>
+          <p data-i18n="ps.s2.d">Streaming, latence < 2s, alertes Slack/Email/WhatsApp quand ça compte.</p>
+        </article>
+        <article class="card">
+          <div class="ico">∞</div>
+          <h3 data-i18n="ps.s3.t">Connecteurs</h3>
+          <p data-i18n="ps.s3.d">BigQuery, Postgres, Stripe, Shopify, Ads… branchez et analysez.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Fonctionnalités ===== -->
+    <section class="container">
+      <h2 class="title" data-i18n="fx.title">Fonctionnalités clés</h2>
+      <p class="sub" data-i18n="fx.lead">Un studio d’analytics complet et élégant.</p>
+      <div class="grid-3">
+        <article class="card">
+          <div class="pill">Explainable AI</div>
+          <h3 data-i18n="fx.f1.t">Détection d’anomalies</h3>
+          <p data-i18n="fx.f1.d">Scores, causes probables et impact business simulé.</p>
+          <a class="btn" style="background:transparent;border-color:transparent;color:#9ADCF6" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.talk">Parler à un expert →</a>
+        </article>
+        <article class="card">
+          <div class="pill">Dashboards</div>
+          <h3 data-i18n="fx.f2.t">Exploration visuelle</h3>
+          <p data-i18n="fx.f2.d">Filtres, segments, cohortes, A/B. Enregistrez et partagez.</p>
+          <a class="btn" style="background:transparent;border-color:transparent;color:#9ADCF6" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.quote">Obtenir un devis →</a>
+        </article>
+        <article class="card">
+          <div class="pill">Automation</div>
+          <h3 data-i18n="fx.f3.t">Playbooks</h3>
+          <p data-i18n="fx.f3.d">Quand X arrive, déclencher Y : export, ticket, message.</p>
+          <a class="btn" style="background:transparent;border-color:transparent;color:#9ADCF6" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.meet">Planifier une démo →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Screenshots ===== -->
+    <section class="container" id="shots">
+      <h2 class="title" data-i18n="shots.title">Aperçus</h2>
+      <p class="sub" data-i18n="shots.lead">Interface soignée, focus sur l’essentiel.</p>
+      <div class="grid-3">
+        <article class="shot"><img class="cover" src="https://picsum.photos/seed/nebula-shot1/1200/750" srcset="https://picsum.photos/seed/nebula-shot1/800/500 800w, https://picsum.photos/seed/nebula-shot1/1200/750 1200w" sizes="(max-width:980px) 96vw, 31vw" alt="Dashboard ventes" referrerpolicy="no-referrer"></article>
+        <article class="shot"><img class="cover" src="https://picsum.photos/seed/nebula-shot2/1200/750" srcset="https://picsum.photos/seed/nebula-shot2/800/500 800w, https://picsum.photos/seed/nebula-shot2/1200/750 1200w" sizes="(max-width:980px) 96vw, 31vw" alt="Exploration cohortes" referrerpolicy="no-referrer"></article>
+        <article class="shot"><img class="cover" src="https://picsum.photos/seed/nebula-shot3/1200/750" srcset="https://picsum.photos/seed/nebula-shot3/800/500 800w, https://picsum.photos/seed/nebula-shot3/1200/750 1200w" sizes="(max-width:980px) 96vw, 31vw" alt="Alertes temps réel" referrerpolicy="no-referrer"></article>
+      </div>
+    </section>
+
+    <!-- ===== KPIs ===== -->
+    <section class="container">
+      <div class="band">
+        <div class="grid-3">
+          <div class="card"><h3>↓ 35%</h3><p data-i18n="kpi1">Temps d’analyse</p></div>
+          <div class="card"><h3>↑ 22%</h3><p data-i18n="kpi2">Conversion</p></div>
+          <div class="card"><h3>97</h3><p data-i18n="kpi3">NPS (démaquette)</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Pricing ===== -->
+    <section class="container" id="pricing">
+      <h2 class="title" data-i18n="price.title">Tarifs</h2>
+      <p class="sub" data-i18n="price.lead">Simple et transparent. Basculer mensuel/annuel.</p>
+      <div class="toggle"><label><input type="checkbox" id="billSwitch"> <span data-i18n="price.toggle">Annuel (-15%)</span></label></div>
+      <div class="pricing" style="margin-top:18px">
+        <article class="price">
+          <div class="pill">Starter</div>
+          <div class="tag" data-price="29">$29</div>
+          <ul><li>1 source • 3 dashboards</li><li>Alertes de base</li><li>Support email</li></ul>
+          <div style="margin-top:14px"><a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.start">Démarrer</a></div>
+        </article>
+        <article class="price">
+          <div class="pill">Growth</div>
+          <div class="tag" data-price="79">$79</div>
+          <ul><li>5 sources • 10 dashboards</li><li>Alertes avancées</li><li>Support prioritaire</li></ul>
+          <div style="margin-top:14px"><a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.start">Démarrer</a></div>
+        </article>
+        <article class="price">
+          <div class="pill">Scale</div>
+          <div class="tag" data-price="169">$169</div>
+          <ul><li>Illimité</li><li>SLA & Onboarding</li><li>Playbooks IA</li></ul>
+          <div style="margin-top:14px"><a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.start">Démarrer</a></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Blog enrichi ===== -->
+    <section class="container" id="blog">
+      <h2 class="title" data-i18n="blog.title">Blog</h2>
+      <p class="sub" data-i18n="blog.lead">Notes rapides sur la donnée et la croissance.</p>
+      <div class="grid-3">
+        <article class="card post">
+          <img class="thumb" src="https://picsum.photos/seed/nebula-blog-1/1200/750" alt="Seuils dynamiques" referrerpolicy="no-referrer">
+          <div class="pill">Guide</div>
+          <h3 data-i18n="blog.p1.t">Installer des alertes utiles</h3>
+          <p data-i18n="blog.p1.d">Seuils dynamiques vs seuils fixes : quand utiliser quoi.</p>
+          <p class="meta">Lecture 4 min</p>
+          <a class="btn" style="background:transparent;border-color:transparent;color:#9ADCF6" href="https://wa.me/22952964028" target="_blank" rel="noopener">Poser une question →</a>
+        </article>
+        <article class="card post">
+          <img class="thumb" src="https://picsum.photos/seed/nebula-blog-2/1200/750" alt="Cohortes ecommerce" referrerpolicy="no-referrer">
+          <div class="pill">Cas</div>
+          <h3 data-i18n="blog.p2.t">Ecommerce & cohortes</h3>
+          <p data-i18n="blog.p2.d">Lire la rétention réelle par segment.</p>
+          <p class="meta">Lecture 6 min</p>
+          <a class="btn" style="background:transparent;border-color:transparent;color:#9ADCF6" href="https://wa.me/22952964028" target="_blank" rel="noopener">Parler à un expert →</a>
+        </article>
+        <article class="card post">
+          <img class="thumb" src="https://picsum.photos/seed/nebula-blog-3/1200/750" alt="Qualité de donnée" referrerpolicy="no-referrer">
+          <div class="pill">Ops</div>
+          <h3 data-i18n="blog.p3.t">Nettoyer la donnée</h3>
+          <p data-i18n="blog.p3.d">Petits checklists qui changent tout.</p>
+          <p class="meta">Lecture 3 min</p>
+          <a class="btn" style="background:transparent;border-color:transparent;color:#9ADCF6" href="https://wa.me/22952964028" target="_blank" rel="noopener">Demander un audit →</a>
+        </article>
+        <article class="card post">
+          <img class="thumb" src="https://picsum.photos/seed/nebula-blog-4/1200/750" alt="Attribution marketing" referrerpolicy="no-referrer">
+          <div class="pill">Growth</div>
+          <h3>Attribution multi-touch en 2025</h3>
+          <p>Modèles data-driven et limites des approches heuristiques.</p>
+          <p class="meta">Lecture 5 min</p>
+          <a class="btn" style="background:transparent;border-color:transparent;color:#9ADCF6" href="https://wa.me/22952964028" target="_blank" rel="noopener">Échanger →</a>
+        </article>
+        <article class="card post">
+          <img class="thumb" src="https://picsum.photos/seed/nebula-blog-5/1200/750" alt="RGPD & Analytics" referrerpolicy="no-referrer">
+          <div class="pill">Legal</div>
+          <h3>Analytics & conformité</h3>
+          <p>Bonnes pratiques RGPD sans perdre la finesse d’analyse.</p>
+          <p class="meta">Lecture 7 min</p>
+          <a class="btn" style="background:transparent;border-color:transparent;color:#9ADCF6" href="https://wa.me/22952964028" target="_blank" rel="noopener">Conseil rapide →</a>
+        </article>
+        <article class="card post">
+          <img class="thumb" src="https://picsum.photos/seed/nebula-blog-6/1200/750" alt="Data Warehouse" referrerpolicy="no-referrer">
+          <div class="pill">Stack</div>
+          <h3>Choisir son entrepôt de données</h3>
+          <p>Coûts, perfs, écosystèmes : BigQuery, Snowflake, Redshift.</p>
+          <p class="meta">Lecture 8 min</p>
+          <a class="btn" style="background:transparent;border-color:transparent;color:#9ADCF6" href="https://wa.me/22952964028" target="_blank" rel="noopener">Avis neutre →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== CTA final ===== -->
+    <section class="container">
+      <div class="band" role="region" aria-label="Action">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div style="font-family:'Space Grotesk',Inter;font-weight:700;font-size:22px" data-i18n="cta.title">Prêt à connecter vos données ?</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a class="btn primary" href="https://wa.me/22952964028" target="_blank" rel="noopener" data-i18n="cta.book">Demander une démo</a>
+            <a class="btn" href="#features" data-i18n="cta.see">Voir les fonctions</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
   <footer>
-    <div class="credit">Site de démonstration créé par <strong>Martial HOSSOU</strong>, CEO de <a href="https://facebook.com/creativeentreprise" target="_blank">CREATIVE ENTREPRISE</a>.</div>
+    <div class="foot" role="contentinfo">
+      <div class="brand">
+        <div class="logo-mark"></div>
+        <div class="logo">Nebula Metrics</div>
+      </div>
+      <div class="meta" data-i18n="footer.addr">Adresse fictive (démo). Disponible monde. Support : L-S 09:00–18:00.</div>
+      <div class="meta">© <span id="year"></span> Nebula Metrics — <span data-i18n="footer.rights">Tous droits réservés</span>.</div>
+      <div class="credit">
+        Site de démonstration créé par <strong>Martial HOSSOU</strong>, CEO de
+        <a href="https://facebook.com/creativeentreprise" target="_blank" rel="noopener"><strong>CREATIVE ENTREPRISE</strong></a>.
+      </div>
+      <div style="margin-top:10px"><button class="lang" id="langSwitch2" aria-label="Changer de langue (pied)">FR / EN</button></div>
+    </div>
   </footer>
 
-  <!-- Popup luxe -->
-  <div class="modal-backdrop" id="creditBackdrop">
-    <div class="modal" id="creditModal">
+  <!-- ===== POPUP OPAQUE ===== -->
+  <div class="modal-backdrop" id="creditBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="creditTitle" aria-describedby="creditDesc">
       <div class="modal-head">
-        <div class="modal-title">Crédits</div>
-        <button class="modal-close" id="creditClose">✕</button>
+        <div class="modal-title" id="creditTitle">Crédits</div>
+        <button class="modal-close" id="creditClose" aria-label="Fermer">✕</button>
       </div>
       <div class="modal-body">
-        <p>Ce site a été conçu par <strong>Martial HOSSOU</strong>, CEO de <strong>CREATIVE ENTREPRISE</strong>.</p>
+        <p id="creditDesc">Ce site a été conçu par <strong>Martial HOSSOU</strong>, CEO de <strong>CREATIVE ENTREPRISE</strong>.</p>
       </div>
       <div class="modal-actions">
-        <a class="btn primary" href="https://facebook.com/creativeentreprise" target="_blank">En savoir plus</a>
+        <a class="btn primary" href="https://facebook.com/creativeentreprise" target="_blank" rel="noopener">En savoir plus</a>
       </div>
     </div>
   </div>
 
-  <script>
-    // Menu mobile
-    const drawer=document.getElementById('drawer'),burger=document.getElementById('hamburger'),
-          backdrop=document.getElementById('backdrop'),closeBtn=document.getElementById('drawerClose');
-    burger.addEventListener('click',()=>{drawer.classList.add('open');backdrop.classList.add('show')});
-    closeBtn.addEventListener('click',()=>{drawer.classList.remove('open');backdrop.classList.remove('show')});
-    backdrop.addEventListener('click',()=>{drawer.classList.remove('open');backdrop.classList.remove('show')});
+  <!-- Back to top -->
+  <button class="to-top" id="toTop" aria-label="Retour en haut">▲</button>
 
-    // Popup credits après 10s
-    const creditBackdrop=document.getElementById('creditBackdrop'),
-          creditModal=document.getElementById('creditModal'),
-          creditClose=document.getElementById('creditClose');
-    function openCredit(){creditBackdrop.classList.add('show');creditModal.classList.add('show');}
-    function closeCredit(){creditBackdrop.classList.remove('show');creditModal.classList.remove('show');}
-    creditClose.addEventListener('click',closeCredit);
-    creditBackdrop.addEventListener('click',(e)=>{if(e.target===creditBackdrop)closeCredit()});
-    setTimeout(openCredit,10000); // 10 secondes
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Nebula Metrics","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"29.00","priceCurrency":"USD"}}
+  </script>
+
+  <script>
+    // Année footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Menu mobile (opaque) =====
+    const drawer = document.getElementById('drawer');
+    const burger = document.getElementById('hamburger');
+    const backdrop = document.getElementById('backdrop');
+    const closeBtn = document.getElementById('drawerClose');
+    function openDrawer(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); backdrop.classList.add('show'); }
+    function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); backdrop.classList.remove('show'); }
+    burger.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+
+    // ===== Back-to-top =====
+    const toTop = document.getElementById('toTop');
+    function visToTop(){ window.scrollY > 400 ? toTop.classList.add('show') : toTop.classList.remove('show'); }
+    window.addEventListener('scroll', visToTop, {passive:true});
+    toTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+    // ===== Parallax léger =====
+    const orbs = document.querySelectorAll('.orb');
+    const heroImg = document.querySelector('.hero-visual img');
+    function parallax(){
+      const y = window.scrollY || 0;
+      orbs.forEach((el,i)=>{ const k = [.06,.04,.08][i] || .05; el.style.transform = `translateY(${Math.min(120, y*k)}px)`; });
+      const scale = 1 + Math.min(0.06, y/6000);
+      heroImg.style.transform = `scale(${scale}) translateY(${Math.min(16, y*0.02)}px)`;
+      heroImg.style.transition = 'transform .12s ease-out';
+    }
+    parallax(); window.addEventListener('scroll', parallax, {passive:true});
+
+    // ===== Pricing toggle =====
+    const billSwitch = document.getElementById('billSwitch');
+    const prices = document.querySelectorAll('.price .tag');
+    function updatePrices(){ prices.forEach(p=>{ const base=Number(p.dataset.price); p.textContent = billSwitch.checked ? `$${Math.round(base*12*0.85)}/an` : `$${base}/mois`; }); }
+    billSwitch?.addEventListener('change', updatePrices); updatePrices();
+
+    // ===== I18N =====
+    const I18N = {
+      fr:{nav:{features:"Fonctionnalités",screens:"Screenshots",pricing:"Tarifs",faq:"FAQ",blog:"Blog",cta:"Parler à un expert"},
+          hero:{badge:"Analytics IA temps réel",title:"Décisions plus rapides. Croissance mesurable.",lead:"Dashboards intelligents, alertes prédictives et connecteurs cloud. De la donnée à l’action en quelques minutes.",cta1:"Demander une démo",cta2:"Voir les fonctions"},
+          ps:{title:"Pourquoi Nebula ?",lead:"Moins de bruit, plus de signal. Toute votre donnée activable.",s1:{t:"Insights IA",d:"Résumés automatiques et recommandations prioritaires sur les anomalies."},s2:{t:"Temps réel",d:"Streaming, latence < 2s, alertes Slack/Email/WhatsApp quand ça compte."},s3:{t:"Connecteurs",d:"BigQuery, Postgres, Stripe, Shopify, Ads… branchez et analysez."}},
+          fx:{title:"Fonctionnalités clés",lead:"Un studio d’analytics complet et élégant.",f1:{t:"Détection d’anomalies",d:"Scores, causes probables et impact business simulé."},f2:{t:"Exploration visuelle",d:"Filtres, segments, cohortes, A/B. Enregistrez et partagez."},f3:{t:"Playbooks",d:"Quand X arrive, déclencher Y : export, ticket, message."}},
+          shots:{title:"Aperçus",lead:"Interface soignée, focus sur l’essentiel."},
+          kpi1:"Temps d’analyse",kpi2:"Conversion",kpi3:"NPS (démaquette)",
+          price:{title:"Tarifs",lead:"Simple et transparent. Basculer mensuel/annuel.",toggle:"Annuel (-15%)"},
+          blog:{title:"Blog",lead:"Notes rapides sur la donnée et la croissance."},
+          faq:{title:"FAQ"},
+          cta:{title:"Prêt à connecter vos données ?",book:"Demander une démo",see:"Voir les fonctions",start:"Démarrer"},
+          footer:{addr:"Adresse fictive (démo). Global. Support : L-S 09:00–18:00.",rights:"Tous droits réservés"}},
+      en:{nav:{features:"Features",screens:"Screenshots",pricing:"Pricing",faq:"FAQ",blog:"Blog",cta:"Talk to an expert"},
+          hero:{badge:"Real-time AI Analytics",title:"Faster decisions. Measurable growth.",lead:"Smart dashboards, predictive alerts and cloud connectors. From data to action in minutes.",cta1:"Request a demo",cta2:"See features"},
+          ps:{title:"Why Nebula?",lead:"Less noise, more signal. Your data, actionable.",s1:{t:"AI insights",d:"Automatic summaries and priority recommendations on anomalies."},s2:{t:"Real-time",d:"Streaming, <2s latency, Slack/Email/WhatsApp alerts when it matters."},s3:{t:"Connectors",d:"BigQuery, Postgres, Stripe, Shopify, Ads… plug and analyze."}},
+          fx:{title:"Key features",lead:"A complete, elegant analytics studio.",f1:{t:"Anomaly detection",d:"Scores, likely causes, simulated business impact."},f2:{t:"Visual exploration",d:"Filters, segments, cohorts, A/B. Save & share."},f3:{t:"Playbooks",d:"When X happens, trigger Y: export, ticket, message."}},
+          shots:{title:"Screenshots",lead:"Polished UI, focus on signal."},
+          kpi1:"Analysis time",kpi2:"Conversion",kpi3:"NPS (mock)",
+          price:{title:"Pricing",lead:"Simple and transparent. Toggle monthly/annual.",toggle:"Annual (-15%)"},
+          blog:{title:"Blog",lead:"Short notes on data and growth."},
+          faq:{title:"FAQ"},
+          cta:{title:"Ready to connect your data?",book:"Request a demo",see:"See features",start:"Get started"},
+          footer:{addr:"Fictitious address (demo). Global. Support: Mon–Sat 09:00–18:00.",rights:"All rights reserved"}}
+    };
+    function applyI18n(locale){
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const path = el.getAttribute('data-i18n').split('.');
+        let val = I18N[locale];
+        for(const p of path){ val = val?.[p]; }
+        if(typeof val === 'string'){ el.textContent = val; }
+      });
+      document.documentElement.lang = (locale==='fr')?'fr':'en';
+      localStorage.setItem('NEBULA_LANG', locale);
+    }
+    const saved = localStorage.getItem('NEBULA_LANG') || (navigator.language?.startsWith('fr') ? 'fr' : 'en');
+    applyI18n(saved);
+    function toggleLang(){ applyI18n((localStorage.getItem('NEBULA_LANG')==='fr')?'en':'fr'); }
+    document.getElementById('langSwitch').addEventListener('click', toggleLang);
+    document.getElementById('langSwitch2')?.addEventListener('click', toggleLang);
+
+    // ===== POPUP OPAQUE : auto 10s + fermeture =====
+    const creditBackdrop = document.getElementById('creditBackdrop');
+    const creditClose = document.getElementById('creditClose');
+    const modalBox = creditBackdrop.querySelector('.modal');
+    function openCreditModal(){
+      creditBackdrop.classList.add('show');
+      modalBox.classList.add('show');
+      creditBackdrop.setAttribute('aria-hidden','false');
+      creditClose.focus();
+      document.addEventListener('keydown', escClose);
+    }
+    function closeCreditModal(){
+      creditBackdrop.classList.remove('show');
+      modalBox.classList.remove('show');
+      creditBackdrop.setAttribute('aria-hidden','true');
+      document.removeEventListener('keydown', escClose);
+    }
+    function escClose(e){ if(e.key === 'Escape') closeCreditModal(); }
+    creditClose.addEventListener('click', closeCreditModal);
+    creditBackdrop.addEventListener('click', (e)=>{ if(e.target === creditBackdrop) closeCreditModal(); });
+    setTimeout(openCreditModal, 10000); // 10 secondes après l’arrivée
+
   </script>
 </body>
 </html>
